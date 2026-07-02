@@ -3,80 +3,141 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>החונך — הדרכת מוצרים</title>
+<title>החונך — סניף ממוצע</title>
 <style>
-  :root{--brown:#6b4423;--cream:#f4f1ea;--gold:#c8923a;--green:#2a8a4a;--red:#c0392b;}
+  :root{--brown:#6b4423;--cream:#f4f1ea;--gold:#c8923a;--green:#2a8a4a;--red:#c0392b;--blue:#2a5ca8;}
   *{box-sizing:border-box;margin:0;padding:0;font-family:"Segoe UI","Assistant",Arial,sans-serif;}
   body{background:linear-gradient(160deg,#f3ecdf,#e6d5bc);min-height:100vh;color:#2b2b2b;}
-  header{background:var(--brown);color:#fff;padding:12px 14px;display:flex;align-items:center;gap:11px;position:sticky;top:0;z-index:9;box-shadow:0 2px 12px rgba(0,0,0,.25);}
-  .ava{width:52px;height:52px;border-radius:50%;background:var(--gold);display:grid;place-items:center;font-size:28px;overflow:hidden;position:relative;flex-shrink:0;}
-  .ava img{width:100%;height:100%;object-fit:cover;}
+  header{background:var(--brown);color:#fff;padding:10px 12px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:9;box-shadow:0 2px 12px rgba(0,0,0,.25);}
+  .ava{width:46px;height:46px;border-radius:50%;background:var(--gold);display:grid;place-items:center;font-size:25px;overflow:hidden;position:relative;flex-shrink:0;}
   .ava.talk::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2.5px solid #fff;animation:pu 1s infinite;}
   @keyframes pu{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(1.3)}}
-  header b{font-size:16px;} header small{opacity:.85;font-size:11px;display:block;}
-  .snd{margin-inline-start:auto;background:rgba(255,255,255,.18);border:none;color:#fff;border-radius:9px;padding:8px 11px;cursor:pointer;font-size:16px;}
-  .bubble{background:#fff;border-radius:14px;margin:12px;padding:12px 14px;font-size:14.5px;line-height:1.5;box-shadow:0 3px 14px rgba(80,50,20,.12);border-inline-start:4px solid var(--gold);}
-  .wrap{max-width:760px;margin:0 auto;padding:0 12px 40px;}
-  .search{display:flex;gap:8px;margin:4px 0 10px;}
-  .search input{flex:1;padding:12px;border:1.5px solid #d8c9ae;border-radius:12px;font-size:15px;background:#fff;}
-  .chips{display:flex;gap:7px;overflow-x:auto;padding:4px 0 10px;-webkit-overflow-scrolling:touch;}
-  .chip{flex-shrink:0;background:#fff;border:1.5px solid #d8c9ae;color:var(--brown);border-radius:20px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;}
+  header b{font-size:15px;} header small{opacity:.85;font-size:10.5px;display:block;}
+  .snd{margin-inline-start:auto;background:rgba(255,255,255,.18);border:none;color:#fff;border-radius:9px;padding:7px 10px;cursor:pointer;font-size:15px;}
+  .tabs{display:flex;background:#5a3a1e;position:sticky;top:66px;z-index:8;}
+  .tabs button{flex:1;background:none;border:none;color:#d9c4a5;padding:11px 4px;font-size:13.5px;font-weight:700;cursor:pointer;border-bottom:3px solid transparent;}
+  .tabs button.on{color:#fff;border-bottom-color:var(--gold);}
+  .bubble{background:#fff;border-radius:14px;margin:12px;padding:11px 13px;font-size:14px;line-height:1.5;box-shadow:0 3px 14px rgba(80,50,20,.12);border-inline-start:4px solid var(--gold);}
+  .wrap{max-width:760px;margin:0 auto;padding:0 12px 50px;}
+  .hidden{display:none;}
+  .btn{display:block;width:100%;padding:13px;border:none;border-radius:13px;background:var(--brown);color:#fff;font-size:15px;font-weight:800;cursor:pointer;margin-top:10px;}
+  .btn.ghost{background:#fff;color:var(--brown);border:2px solid var(--brown);}
+  .btn.green{background:var(--green);}
+  /* worker day */
+  .slot{background:#fff;border-radius:14px;margin:12px 0;box-shadow:0 3px 12px rgba(80,50,20,.1);overflow:hidden;}
+  .slot .sh{background:linear-gradient(90deg,#f6eddc,#efe0c5);padding:10px 13px;font-weight:800;color:var(--brown);display:flex;align-items:center;gap:8px;font-size:15px;}
+  .slot .sh .prg{margin-inline-start:auto;font-size:11.5px;color:#8a7a64;font-weight:600;}
+  .titem{display:flex;align-items:center;gap:9px;padding:9px 12px;border-top:1px solid #f2e8d6;font-size:13.5px;}
+  .titem img{width:44px;height:44px;object-fit:cover;border-radius:9px;background:#eee;flex-shrink:0;}
+  .titem .nm{flex:1;font-weight:700;line-height:1.3;} .titem .nm small{display:block;color:#8a7a64;font-weight:600;font-size:11px;}
+  .pill{font-size:10.5px;font-weight:800;border-radius:7px;padding:3px 7px;background:var(--brown);color:#fff;flex-shrink:0;}
+  .pill.d{background:var(--blue);}
+  .st{flex-shrink:0;display:flex;gap:5px;}
+  .st button{border:none;border-radius:8px;padding:7px 9px;font-size:13px;cursor:pointer;background:#efe6d4;}
+  .st button.done{background:var(--green);color:#fff;} .st button.skip{background:#f3d2cc;color:var(--red);}
+  .titem.isdone{opacity:.55;} .titem.isskip{background:#fdf3f1;}
+  .prog{height:8px;background:#e7dcc9;border-radius:5px;margin:8px 12px;overflow:hidden;}
+  .prog i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--green));transition:.3s;}
+  .check{background:#fff;border-radius:14px;padding:14px;margin:12px 0;box-shadow:0 3px 12px rgba(80,50,20,.1);}
+  .check h3{color:var(--brown);font-size:15px;margin-bottom:8px;}
+  .check input{width:90px;padding:9px;border:1.5px solid #d8c9ae;border-radius:9px;font-size:15px;text-align:center;}
+  .check .row2{display:flex;gap:10px;align-items:center;font-size:14px;margin:7px 0;}
+  /* catalog */
+  .search{display:flex;gap:8px;margin:10px 0;} .search input{flex:1;padding:12px;border:1.5px solid #d8c9ae;border-radius:12px;font-size:15px;background:#fff;}
+  .chips{display:flex;gap:7px;overflow-x:auto;padding:2px 0 10px;}
+  .chip{flex-shrink:0;background:#fff;border:1.5px solid #d8c9ae;color:var(--brown);border-radius:20px;padding:7px 13px;font-size:13px;font-weight:700;cursor:pointer;}
   .chip.on{background:var(--brown);color:#fff;border-color:var(--brown);}
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;}
-  .card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 3px 12px rgba(80,50,20,.1);cursor:pointer;transition:.15s;}
-  .card:active{transform:scale(.97);}
-  .card img{width:100%;height:110px;object-fit:cover;display:block;background:#eee;}
-  .card .noimg{width:100%;height:110px;display:grid;place-items:center;font-size:38px;background:#f3ecdf;}
-  .card .nm{padding:8px 9px 4px;font-size:13px;font-weight:700;line-height:1.3;min-height:38px;}
+  .card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 3px 12px rgba(80,50,20,.1);cursor:pointer;}
+  .card img{width:100%;height:105px;object-fit:cover;display:block;background:#f3ecdf;}
+  .card .noimg{width:100%;height:105px;display:grid;place-items:center;font-size:36px;background:#f3ecdf;}
+  .card .nm{padding:8px 9px 4px;font-size:12.5px;font-weight:700;line-height:1.3;min-height:36px;}
   .card .meta{display:flex;gap:5px;padding:0 9px 9px;flex-wrap:wrap;}
-  .pill{font-size:10.5px;font-weight:800;border-radius:7px;padding:2px 7px;background:var(--brown);color:#fff;}
   .k{font-size:10.5px;font-weight:700;border-radius:7px;padding:2px 7px;}
-  .k.p{background:#e7f3e9;color:var(--green);} .k.d{background:#eaf0fb;color:#2a5ca8;}
-  /* product page */
+  .k.p{background:#e7f3e9;color:var(--green);} .k.d{background:#eaf0fb;color:var(--blue);}
+  /* product overlay */
   .pv{position:fixed;inset:0;background:var(--cream);z-index:20;overflow:auto;display:none;}
   .pv.open{display:block;}
-  .pv .hero{position:relative;}
-  .pv .hero img{width:100%;max-height:280px;object-fit:cover;display:block;}
-  .pv .back{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:10px;padding:9px 14px;font-size:15px;cursor:pointer;}
+  .pv .hero img{width:100%;max-height:260px;object-fit:contain;background:#fff;display:block;}
+  .pv .back{position:fixed;top:12px;right:12px;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:10px;padding:9px 14px;font-size:15px;cursor:pointer;z-index:21;}
   .pv .body{max-width:700px;margin:0 auto;padding:14px;}
-  .pv h1{color:var(--brown);font-size:21px;margin-bottom:8px;}
+  .pv h1{color:var(--brown);font-size:20px;margin-bottom:8px;}
   .facts{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px;}
   .fact{background:#fff;border:1px solid #e5d7bd;border-radius:10px;padding:6px 11px;font-size:12.5px;}
-  .fact b{color:var(--brown);}
-  .stepbox{background:#fff;border-radius:16px;padding:20px 16px;text-align:center;box-shadow:0 4px 16px rgba(80,50,20,.12);}
-  .stepbox .n{display:inline-block;min-width:38px;height:38px;line-height:38px;border-radius:50%;background:var(--gold);color:#fff;font-weight:800;font-size:17px;}
-  .stepbox .tx{font-size:18px;font-weight:700;line-height:1.5;margin:13px 0;}
-  .pbar{height:7px;background:#e7dcc9;border-radius:5px;margin:10px 0;overflow:hidden;}
-  .pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--green));transition:.3s;}
-  .btn{display:block;width:100%;padding:14px;border:none;border-radius:13px;background:var(--brown);color:#fff;font-size:16px;font-weight:800;cursor:pointer;margin-top:10px;}
-  .btn.ghost{background:#fff;color:var(--brown);border:2px solid var(--brown);}
+  .stepbox{background:#fff;border-radius:16px;padding:18px 15px;text-align:center;box-shadow:0 4px 16px rgba(80,50,20,.12);}
+  .stepbox .n{display:inline-block;min-width:36px;height:36px;line-height:36px;border-radius:50%;background:var(--gold);color:#fff;font-weight:800;}
+  .stepbox .tx{font-size:17px;font-weight:700;line-height:1.5;margin:12px 0;}
   .rowbtns{display:flex;gap:8px;} .rowbtns .btn{flex:1;}
-  .done{background:#e7f6ec;color:var(--green);border:1.5px solid #abdcb9;border-radius:13px;padding:14px;text-align:center;font-weight:800;margin-top:10px;}
-  .note{text-align:center;color:#8a7a64;font-size:11.5px;padding:10px;}
+  /* manager */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:12px 0;}
+  .kpi{background:#fff;border-radius:13px;padding:12px 8px;text-align:center;box-shadow:0 3px 10px rgba(80,50,20,.09);}
+  .kpi .v{font-size:22px;font-weight:800;color:var(--brown);} .kpi .l{font-size:10.5px;color:#7a6a55;margin-top:2px;}
+  .panel{background:#fff;border-radius:13px;padding:13px;margin:11px 0;box-shadow:0 3px 10px rgba(80,50,20,.09);}
+  .panel h3{color:var(--brown);font-size:14.5px;margin-bottom:8px;}
+  .mrow{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px dashed #eee1c8;font-size:13px;}
+  .mrow:last-child{border:none;}
+  .tag{margin-inline-start:auto;font-size:11px;font-weight:700;padding:3px 8px;border-radius:8px;flex-shrink:0;}
+  .t-ok{background:#e7f6ec;color:var(--green);} .t-warn{background:#fdf0e3;color:#b9772a;} .t-bad{background:#fdecea;color:var(--red);}
+  .note{text-align:center;color:#8a7a64;font-size:11px;padding:10px;}
 </style>
 </head>
 <body>
 <header>
   <span class="ava" id="ava">👨‍🍳</span>
-  <div><b>החונך · קובי</b><small>הדרכת מוצרים · מהחוברת הרשמית</small></div>
+  <div><b>החונך · קובי</b><small>סניף ממוצע · תוכנית מהחוברת הרשמית</small></div>
   <button class="snd" id="snd" onclick="tgl()">🔊</button>
 </header>
+<div class="tabs">
+  <button id="tb-w" class="on" onclick="tab('w')">🧑‍🍳 העובד</button>
+  <button id="tb-c" onclick="tab('c')">📚 קטלוג הדרכה</button>
+  <button id="tb-m" onclick="tab('m')">📊 המנהל</button>
+</div>
+<div class="bubble" id="say">בוקר טוב! אני החונך שלך. נתחיל את היום — קודם בדיקות פתיחה, ואז אני אגיד לך בדיוק מה נכנס לכל תוכנית, שעה-שעה.</div>
 
-<div class="bubble" id="say">שלום! אני החונך. בחר מוצר — ואני אסביר לך צעד-צעד איך מכינים אותו, בדיוק לפי נהלי האפייה.</div>
-
-<div class="wrap">
-  <div class="search"><input id="q" placeholder="🔍 חפש מוצר... (בגט, חלה, בורקס...)" oninput="render()"></div>
-  <div class="chips" id="chips"></div>
-  <div class="grid" id="grid"></div>
-  <p class="note">116 מוצרים · הופק אוטומטית מחוברות נהלי האפייה · דמו</p>
+<!-- ================= WORKER ================= -->
+<div class="wrap" id="v-w">
+  <div class="check" id="opening">
+    <h3>☀️ פתיחת משמרת — בדיקות</h3>
+    <div class="row2">🧼 שטפתי ידיים, סינר וכיסוי ראש <button class="btn green" style="width:auto;margin:0;padding:8px 14px" onclick="hyg(this)">בוצע ✓</button></div>
+    <div class="row2">🌡️ טמפ' מקרר: <input id="tfr" placeholder="3°" inputmode="decimal"> טמפ' מקפיא: <input id="tfz" placeholder="-19°" inputmode="decimal">
+      <button class="btn green" style="width:auto;margin:0;padding:8px 14px" onclick="temps()">רשום ✓</button></div>
+    <div class="row2" style="color:#8a7a64;font-size:12.5px">הבדיקות נשמרות לדוח משרד הבריאות של המנהל.</div>
+  </div>
+  <div id="slots"></div>
+  <div class="check">
+    <h3>🌙 סיום יום — השמדות</h3>
+    <div class="row2"><input id="wn" placeholder="מוצר" style="width:150px;text-align:right"> <input id="wq" placeholder="כמות" style="width:70px">
+      <button class="btn green" style="width:auto;margin:0;padding:8px 14px" onclick="addW()">הוסף</button></div>
+    <div id="wlist" style="font-size:13px;color:#7a6a55"></div>
+    <button class="btn" onclick="closeDay()">סגור משמרת ✓</button>
+  </div>
 </div>
 
+<!-- ================= CATALOG ================= -->
+<div class="wrap hidden" id="v-c">
+  <div class="search"><input id="q" placeholder="🔍 חפש מוצר..." oninput="renderCat()"></div>
+  <div class="chips" id="chips"></div>
+  <div class="grid" id="grid"></div>
+  <p class="note">116 מוצרים · הופק אוטומטית מחוברות נהלי האפייה</p>
+</div>
+
+<!-- ================= MANAGER ================= -->
+<div class="wrap hidden" id="v-m">
+  <div class="kpis" id="kpis"></div>
+  <div class="panel"><h3>⚠️ לא בוצע — עם סיבה</h3><div id="mskips"></div></div>
+  <div class="panel"><h3>🏥 מעקב משרד הבריאות</h3><div id="mhealth"></div></div>
+  <div class="panel"><h3>🗑️ השמדות היום</h3><div id="mwaste"></div></div>
+  <div class="panel"><h3>📦 ביצוע לפי שעות</h3><div id="mslots"></div></div>
+  <p class="note">מתעדכן חי מהסימונים של העובד · דוח מודפס למחסנאי בלחיצה</p>
+</div>
+
+<!-- product overlay -->
 <div class="pv" id="pv">
-  <div class="hero"><img id="pimg" src="" alt=""><button class="back" onclick="closeP()">→ חזרה</button></div>
+  <button class="back" onclick="closeP()">→ חזרה</button>
+  <div class="hero"><img id="pimg" src="" alt=""></div>
   <div class="body">
     <h1 id="pname"></h1>
     <div class="facts" id="pfacts"></div>
-    <div class="pbar"><i id="pbar"></i></div>
     <div class="stepbox">
       <span class="n" id="sn">1</span>
       <div class="tx" id="stx"></div>
@@ -91,26 +152,78 @@
 </div>
 
 <script src="products.js"></script>
+<script src="plan.js"></script>
 <script>
-let snd=true,cat="הכל",cur=null,si=0,heVoice=null,warned=false;
-const CATS=["הכל",...new Set(window.PRODUCTS.map(p=>p.cat))];
+/* ---------- state ---------- */
+const KEY='hc_state_v1';
+let S=JSON.parse(localStorage.getItem(KEY)||'{"tasks":{},"temps":null,"hyg":false,"waste":[],"closed":false}');
+function save(){localStorage.setItem(KEY,JSON.stringify(S));renderMgr();}
+/* ---------- voice ---------- */
+let snd=true,heVoice=null,warned=false;
 function pickVoice(){const vs=speechSynthesis.getVoices()||[];
- heVoice=vs.find(v=>v.lang&&v.lang.toLowerCase().startsWith('he'))||
-         vs.find(v=>/hebrew|עברית|ivrit|carmit/i.test(v.name))||null;}
+ heVoice=vs.find(v=>v.lang&&v.lang.toLowerCase().startsWith('he'))||vs.find(v=>/hebrew|עברית|carmit/i.test(v.name))||null;}
 if(window.speechSynthesis){pickVoice();speechSynthesis.onvoiceschanged=pickVoice;}
 function speak(t){if(!snd||!window.speechSynthesis)return;speechSynthesis.cancel();
  if(!heVoice)pickVoice();
  const u=new SpeechSynthesisUtterance(t);u.lang='he-IL';u.rate=1.0;
- if(heVoice)u.voice=heVoice;
- else if(!warned){warned=true;document.getElementById('say').innerHTML=
-  '💡 כדי שאדבר <b>בעברית</b>: בהגדרות הטלפון → ניהול כללי → טקסט לדיבור (TTS) → התקן/בחר שפה עברית (Google TTS). בינתיים אמשיך בכתב.';return;}
- const a=document.getElementById('ava');a.classList.add('talk');u.onend=()=>a.classList.remove('talk');
- speechSynthesis.speak(u);}
+ if(heVoice)u.voice=heVoice;else if(!warned){warned=true;document.getElementById('say').innerHTML='💡 כדי שאדבר בעברית: הגדרות ← טקסט לדיבור ← התקן עברית (Google TTS). ממשיך בכתב.';return;}
+ const a=document.getElementById('ava');a.classList.add('talk');u.onend=()=>a.classList.remove('talk');speechSynthesis.speak(u);}
 function tgl(){snd=!snd;document.getElementById('snd').textContent=snd?'🔊':'🔇';if(!snd)speechSynthesis.cancel();}
+function sayTxt(t){document.getElementById('say').textContent=t;speak(t);}
+/* ---------- tabs ---------- */
+function tab(x){['w','c','m'].forEach(v=>{document.getElementById('v-'+v).classList.toggle('hidden',v!==x);
+ document.getElementById('tb-'+v).classList.toggle('on',v===x);});
+ if(x==='m'){renderMgr();sayTxt('דוח המנהל — מתעדכן חי מהעבודה של העובד.');}
+ if(x==='w')sayTxt('היום שלך — לפי שעות. כל שורה: מה מכניסים, לאיזו תוכנית, וכמה מגשים.');}
+/* ---------- worker: opening ---------- */
+function hyg(b){S.hyg=true;save();b.textContent='✓ נרשם';b.disabled=true;sayTxt('מעולה. היגיינה קודם כל.');}
+function temps(){const fr=document.getElementById('tfr').value,fz=document.getElementById('tfz').value;
+ if(!fr||!fz){sayTxt('רשום גם מקרר וגם מקפיא.');return;}
+ S.temps={fr,fz,at:new Date().toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'})};save();
+ sayTxt('נרשם. מקרר '+fr+' מעלות, מקפיא '+fz+'. עובר לדוח המנהל.');}
+/* ---------- worker: slots ---------- */
+const REASONS=['חוסר מלאי','חוסר עובדים','תקלת תנור','לא נדרש היום'];
+function renderSlots(){const el=document.getElementById('slots');el.innerHTML='';
+ Object.entries(window.DAYPLAN).forEach(([slot,items])=>{
+  if(!items.length)return;
+  const d=document.createElement('div');d.className='slot';
+  const done=items.filter(t=>S.tasks[t.id]).length;
+  d.innerHTML=`<div class="sh">🕐 ${slot}<span class="prg">${done}/${items.length} בוצעו</span></div>
+   <div class="prog"><i style="width:${done/items.length*100}%"></i></div>`;
+  items.forEach(t=>{
+   const st=S.tasks[t.id]||'';
+   const r=document.createElement('div');r.className='titem'+(st==='done'?' isdone':st?' isskip':'');
+   r.innerHTML=(t.img?`<img loading="lazy" src="img/${t.img}">`:'<img>')+
+    `<div class="nm">${t.name}<small>${t.trays} מגשים · ${t.kosher||''}${st&&st!=='done'?' · ❌ '+st.replace('skip:',''):''}</small></div>
+     <span class="pill ${t.kosher==='חלבי'?'d':''}">${t.prog}</span>
+     <span class="st">
+       <button class="${st==='done'?'done':''}" onclick="mark('${t.id}','done','${t.name.replace(/'/g,"")}',this)">✓</button>
+       <button class="${st&&st!=='done'?'skip':''}" onclick="skip('${t.id}','${t.name.replace(/'/g,"")}')">✗</button>
+     </span>`;
+   r.querySelector('img')&&r.querySelector('img').addEventListener('click',()=>openByName(t.name));
+   d.appendChild(r);});
+  el.appendChild(d);});}
+function mark(id,st,nm,btn){S.tasks[id]=st;save();renderSlots();
+ sayTxt('מצוין, '+nm+' בוצע. הבא בתור.');}
+function skip(id,nm){const r=prompt('למה לא בוצע? \n1 חוסר מלאי · 2 חוסר עובדים · 3 תקלת תנור · 4 לא נדרש');
+ const reason=REASONS[(parseInt(r)||1)-1]||r||'לא צוין';
+ S.tasks[id]='skip:'+reason;save();renderSlots();
+ sayTxt(nm+' סומן שלא בוצע. הסיבה נרשמה למנהל: '+reason+'.');}
+function openByName(n){const p=window.PRODUCTS.find(x=>x.name===n);if(p)openP(p);}
+/* ---------- worker: waste + close ---------- */
+function addW(){const n=document.getElementById('wn').value.trim(),q=document.getElementById('wq').value.trim();
+ if(!n||!q)return;S.waste.push({n,q});save();document.getElementById('wn').value='';document.getElementById('wq').value='';
+ renderW();sayTxt('נרשם: '+q+' יחידות '+n+' להשמדה. ירד מהמלאי.');}
+function renderW(){document.getElementById('wlist').innerHTML=S.waste.map(w=>`🗑️ ${w.n} — ${w.q} יח'`).join('<br>');}
+function closeDay(){S.closed=true;save();
+ sayTxt('כל הכבוד! סגרת משמרת מלאה. ודא שהתנורים כבויים והמקום נקי. הדוח מחכה למנהל.');}
+/* ---------- catalog ---------- */
+let cat='הכל',cur=null,si=0;
+const CATS=['הכל',...new Set(window.PRODUCTS.map(p=>p.cat))];
 function chips(){const el=document.getElementById('chips');el.innerHTML='';
  CATS.forEach(c=>{const b=document.createElement('button');b.className='chip'+(c===cat?' on':'');b.textContent=c;
-  b.onclick=()=>{cat=c;render();};el.appendChild(b);});}
-function render(){chips();const q=document.getElementById('q').value.trim();
+  b.onclick=()=>{cat=c;renderCat();};el.appendChild(b);});}
+function renderCat(){chips();const q=document.getElementById('q').value.trim();
  const el=document.getElementById('grid');el.innerHTML='';
  window.PRODUCTS.filter(p=>(cat==='הכל'||p.cat===cat)&&(!q||p.name.includes(q))).forEach(p=>{
   const d=document.createElement('div');d.className='card';d.onclick=()=>openP(p);
@@ -122,28 +235,51 @@ function openP(p){cur=p;si=0;
  document.getElementById('pimg').src=p.img?('img/'+p.img):'';
  document.getElementById('pname').textContent=p.name;
  const f=[];if(p.kosher)f.push(`<b>כשרות:</b> ${p.kosher}`);if(p.prog)f.push(`<b>תוכנית:</b> ${p.prog}`);
- if(p.days)f.push(`<b>ימי אפייה:</b> ${p.days}`);if(p.hours)f.push(`<b>שעות:</b> ${p.hours}`);
- if(p.barcode)f.push(`<b>ברקוד:</b> ${p.barcode}`);if(p.shelf)f.push(`<b>חיי מדף:</b> ${p.shelf}`);
+ if(p.days)f.push(`<b>ימים:</b> ${p.days}`);if(p.hours)f.push(`<b>שעות:</b> ${p.hours}`);
+ if(p.barcode)f.push(`<b>ברקוד:</b> ${p.barcode}`);
  document.getElementById('pfacts').innerHTML=f.map(x=>`<span class="fact">${x}</span>`).join('');
  document.getElementById('pdone').innerHTML='';
- document.getElementById('pv').classList.add('open');window.scrollTo(0,0);
- speak(`${p.name}. ${p.kosher||''}. ${p.prog?'תוכנית '+p.prog+'.':''} בוא נעבור על השלבים.`);
- setTimeout(step,1800);}
+ document.getElementById('pv').classList.add('open');
+ speak(p.name+'. '+(p.kosher||'')+'. בוא נעבור על השלבים.');
+ setTimeout(step,1600);}
 function step(){const s=cur.steps[si];
  document.getElementById('sn').textContent=si+1;
  document.getElementById('stx').textContent=s;
- document.getElementById('pbar').style.width=(si/cur.steps.length*100)+'%';
  document.getElementById('prevb').style.visibility=si?'visible':'hidden';
- document.getElementById('nextb').textContent=si<cur.steps.length-1?'בוצע ✓ הבא':'סיימתי ✓';
- speak(s);}
+ document.getElementById('nextb').textContent=si<cur.steps.length-1?'בוצע ✓ הבא':'סיימתי ✓';speak(s);}
 function nxt(){if(si<cur.steps.length-1){si++;step();}
- else{document.getElementById('pbar').style.width='100%';
-  document.getElementById('pdone').innerHTML='<div class="done">✅ כל הכבוד! סיימת את '+cur.name+' לפי הנוהל.</div>';
-  speak('כל הכבוד! סיימת את '+cur.name+' בדיוק לפי הנוהל.');}}
+ else{document.getElementById('pdone').innerHTML='<div class="bubble">✅ כל הכבוד! סיימת את '+cur.name+' לפי הנוהל.</div>';
+ speak('כל הכבוד! סיימת לפי הנוהל.');}}
 function prv(){if(si>0){si--;step();}}
 function rpt(){step();}
 function closeP(){document.getElementById('pv').classList.remove('open');speechSynthesis.cancel();}
-render();
+/* ---------- manager ---------- */
+function renderMgr(){
+ const all=[].concat(...Object.values(window.DAYPLAN));
+ const done=all.filter(t=>S.tasks[t.id]==='done');
+ const skipped=all.filter(t=>(S.tasks[t.id]||'').startsWith('skip'));
+ const trays=done.reduce((a,t)=>a+t.trays,0);
+ document.getElementById('kpis').innerHTML=`
+  <div class="kpi"><div class="v">${all.length}</div><div class="l">בתוכנית</div></div>
+  <div class="kpi"><div class="v">${done.length}</div><div class="l">בוצעו ✓</div></div>
+  <div class="kpi"><div class="v">${trays}</div><div class="l">מגשים נאפו</div></div>
+  <div class="kpi"><div class="v">${skipped.length}</div><div class="l">לא בוצעו</div></div>`;
+ document.getElementById('mskips').innerHTML=skipped.length?skipped.map(t=>
+  `<div class="mrow">${t.name}<span class="tag t-warn">${(S.tasks[t.id]||'').replace('skip:','')}</span></div>`).join(''):
+  '<div class="mrow">אין חריגות ✓<span class="tag t-ok">מעולה</span></div>';
+ document.getElementById('mhealth').innerHTML=
+  `<div class="mrow">היגיינת פתיחה<span class="tag ${S.hyg?'t-ok':'t-bad'}">${S.hyg?'✓ בוצע':'לא נרשם'}</span></div>`+
+  (S.temps?`<div class="mrow">טמפ' מקרר ${S.temps.fr}° · מקפיא ${S.temps.fz}°<span class="tag t-ok">✓ ${S.temps.at}</span></div>`:
+   '<div class="mrow">טמפרטורות<span class="tag t-bad">לא נרשמו</span></div>');
+ document.getElementById('mwaste').innerHTML=S.waste.length?S.waste.map(w=>
+  `<div class="mrow">${w.n}<span class="tag t-warn">${w.q} יח' → ירד מהמלאי</span></div>`).join(''):
+  '<div class="mrow">טרם נרשמו השמדות<span class="tag t-ok">—</span></div>';
+ document.getElementById('mslots').innerHTML=Object.entries(window.DAYPLAN).map(([s,items])=>{
+  const d=items.filter(t=>S.tasks[t.id]).length;
+  return `<div class="mrow">🕐 ${s} — ${d}/${items.length}<span class="tag ${d===items.length?'t-ok':'t-warn'}">${d===items.length?'הושלם':'בתהליך'}</span></div>`;}).join('');}
+/* ---------- init ---------- */
+renderSlots();renderCat();renderW();renderMgr();
+setTimeout(()=>speak('בוקר טוב! אני החונך. נתחיל בבדיקות פתיחה, ואז אוביל אותך שעה-שעה, תוכנית-תוכנית, עד סוף היום.'),700);
 </script>
 </body>
 </html>
