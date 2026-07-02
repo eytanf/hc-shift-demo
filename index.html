@@ -92,10 +92,18 @@
 
 <script src="products.js"></script>
 <script>
-let snd=true,cat="הכל",cur=null,si=0;
+let snd=true,cat="הכל",cur=null,si=0,heVoice=null,warned=false;
 const CATS=["הכל",...new Set(window.PRODUCTS.map(p=>p.cat))];
+function pickVoice(){const vs=speechSynthesis.getVoices()||[];
+ heVoice=vs.find(v=>v.lang&&v.lang.toLowerCase().startsWith('he'))||
+         vs.find(v=>/hebrew|עברית|ivrit|carmit/i.test(v.name))||null;}
+if(window.speechSynthesis){pickVoice();speechSynthesis.onvoiceschanged=pickVoice;}
 function speak(t){if(!snd||!window.speechSynthesis)return;speechSynthesis.cancel();
- const u=new SpeechSynthesisUtterance(t);u.lang='he-IL';u.rate=1.02;
+ if(!heVoice)pickVoice();
+ const u=new SpeechSynthesisUtterance(t);u.lang='he-IL';u.rate=1.0;
+ if(heVoice)u.voice=heVoice;
+ else if(!warned){warned=true;document.getElementById('say').innerHTML=
+  '💡 כדי שאדבר <b>בעברית</b>: בהגדרות הטלפון → ניהול כללי → טקסט לדיבור (TTS) → התקן/בחר שפה עברית (Google TTS). בינתיים אמשיך בכתב.';return;}
  const a=document.getElementById('ava');a.classList.add('talk');u.onend=()=>a.classList.remove('talk');
  speechSynthesis.speak(u);}
 function tgl(){snd=!snd;document.getElementById('snd').textContent=snd?'🔊':'🔇';if(!snd)speechSynthesis.cancel();}
