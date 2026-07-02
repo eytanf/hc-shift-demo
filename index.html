@@ -3,282 +3,139 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>החונך — דמו סניף מלא</title>
+<title>החונך — הדרכת מוצרים</title>
 <style>
   :root{--brown:#6b4423;--cream:#f4f1ea;--gold:#c8923a;--green:#2a8a4a;--red:#c0392b;}
-  *{box-sizing:border-box;margin:0;padding:0;font-family:"Segoe UI",Arial,sans-serif;}
-  body{background:linear-gradient(135deg,#efe7da,#e3d3bd);min-height:100vh;color:#2b2b2b;}
-  .topbar{background:var(--brown);color:#fff;padding:10px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 10px rgba(0,0,0,.2);flex-wrap:wrap;}
-  .topbar .brand{font-size:20px;font-weight:800;} .topbar .brand small{font-weight:400;opacity:.8;font-size:12px;}
-  .switch{margin-inline-start:auto;display:flex;gap:6px;background:rgba(255,255,255,.15);border-radius:10px;padding:4px;}
-  .switch button{border:none;background:transparent;color:#fff;padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;}
-  .switch button.on{background:#fff;color:var(--brown);}
-  .stage{max-width:1100px;margin:20px auto;padding:0 14px;}
-  .phone{max-width:400px;margin:0 auto;background:#fff;border-radius:26px;box-shadow:0 18px 50px rgba(80,50,20,.28);overflow:hidden;border:8px solid #1f1a16;}
-  .ph-head{background:var(--brown);color:#fff;padding:13px 16px;display:flex;align-items:center;gap:10px;}
-  .ph-head .ava{width:42px;height:42px;border-radius:50%;background:var(--gold);display:grid;place-items:center;font-size:23px;position:relative;}
-  .ph-head .ava.talk::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid #fff;animation:pulse 1s infinite;}
-  @keyframes pulse{0%{opacity:.8;transform:scale(1)}100%{opacity:0;transform:scale(1.35)}}
-  .ph-head b{font-size:15px;} .ph-head small{opacity:.85;font-size:11px;}
-  .ph-head .snd{margin-inline-start:auto;background:rgba(255,255,255,.18);border:none;color:#fff;border-radius:8px;padding:6px 9px;cursor:pointer;font-size:14px;}
-  .ph-body{padding:15px;min-height:580px;max-height:580px;overflow:auto;}
-  .hidden{display:none;}
-  h2{color:var(--brown);font-size:18px;margin-bottom:3px;} .sub{color:#7a6a55;font-size:12.5px;margin-bottom:12px;}
-  .btn{display:block;width:100%;padding:14px;border:none;border-radius:13px;background:var(--brown);color:#fff;font-size:15px;font-weight:700;cursor:pointer;margin-top:10px;box-shadow:0 4px 14px rgba(107,68,35,.3);}
-  .btn.ghost{background:#fff;color:var(--brown);border:2px solid var(--brown);box-shadow:none;}
-  .daybar{background:linear-gradient(90deg,#fbf3e6,#f3e6cf);border:1px solid #ecdcc0;border-radius:12px;padding:10px 13px;margin-bottom:12px;font-size:13px;color:#6b4423;}
-  .prog{height:9px;background:#e7dcc9;border-radius:6px;margin-top:8px;overflow:hidden;} .prog i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--green));}
-  .cat{font-size:12px;font-weight:800;color:#a07a45;margin:14px 0 6px;}
-  .task{display:flex;align-items:center;gap:10px;background:#fbf8f3;border:1px solid #eee2d2;border-radius:12px;padding:10px;margin-bottom:7px;cursor:pointer;}
-  .task.done{opacity:.55;} .task.done b{text-decoration:line-through;}
-  .pill{font-size:11px;font-weight:800;color:#fff;background:var(--brown);border-radius:8px;padding:4px 7px;min-width:34px;text-align:center;}
-  .qty{font-size:11px;color:#8a7a64;} .kosher{font-size:10px;padding:2px 7px;border-radius:7px;font-weight:700;}
-  .k-parve{background:#e7f3e9;color:var(--green);} .k-dairy{background:#eaf0fb;color:#2a5ca8;}
-  .chk{color:var(--green);font-weight:800;font-size:16px;}
-  .step{background:#fbf8f3;border-radius:16px;padding:20px 16px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.05);}
-  .step .n{display:inline-block;width:38px;height:38px;line-height:38px;border-radius:50%;background:var(--gold);color:#fff;font-weight:800;}
-  .step .big{font-size:18px;font-weight:700;margin:12px 0;line-height:1.45;}
-  .pgmBig{font-size:26px;font-weight:800;color:#fff;background:var(--brown);display:inline-block;padding:7px 22px;border-radius:11px;margin:6px 0;}
-  .bar{height:7px;background:#e7dcc9;border-radius:5px;margin:8px 0 14px;overflow:hidden;} .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--brown));transition:.3s;}
-  .alert{border-radius:12px;padding:13px;margin:9px 0;font-size:13.5px;font-weight:600;}
-  .alert.red{background:#fdecea;color:var(--red);border:1.5px solid #f5b7b1;} .alert.ok{background:#e7f6ec;color:var(--green);border:1.5px solid #abdcb9;}
-  .photo{border:2px dashed var(--gold);border-radius:12px;padding:14px;text-align:center;color:#8a6a3a;font-size:12.5px;margin:10px 0;cursor:pointer;}
-  .link{background:none;border:none;color:var(--brown);text-decoration:underline;cursor:pointer;font-size:13px;margin-top:8px;}
-  .chat{display:flex;flex-direction:column;height:440px;} .msgs{flex:1;overflow:auto;display:flex;flex-direction:column;gap:7px;}
-  .m{padding:9px 12px;border-radius:13px;max-width:86%;font-size:13.5px;line-height:1.45;} .m.bot{background:#f0e6d8;align-self:flex-start;} .m.me{background:var(--brown);color:#fff;align-self:flex-end;}
-  .inp{display:flex;gap:6px;margin-top:8px;} .inp input{flex:1;padding:10px;border:1px solid #ddd;border-radius:9px;} .inp button{padding:10px 13px;border:none;border-radius:9px;background:var(--brown);color:#fff;cursor:pointer;}
-  /* dashboard */
-  .dash{background:#fff;border-radius:18px;box-shadow:0 10px 40px rgba(80,50,20,.15);padding:22px;}
-  .dash h1{color:var(--brown);font-size:21px;} .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0;}
-  .stat{background:linear-gradient(135deg,#fbf8f3,#f3ebdd);border-radius:13px;padding:15px;border:1px solid #eee2d2;} .stat .v{font-size:24px;font-weight:800;color:var(--brown);} .stat .l{font-size:11.5px;color:#7a6a55;margin-top:2px;}
-  .panel{background:#fbf8f3;border:1px solid #eee2d2;border-radius:13px;padding:15px;margin-top:13px;} .panel h3{color:var(--brown);font-size:14.5px;margin-bottom:9px;}
-  .row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px dashed #e7dcc9;font-size:13.5px;} .row:last-child{border:none;}
-  .tag{margin-inline-start:auto;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:8px;} .t-ok{background:#e7f6ec;color:var(--green);} .t-warn{background:#fdf0e3;color:#b9772a;} .t-bad{background:#fdecea;color:var(--red);}
-  .ring{width:110px;height:110px;border-radius:50%;background:conic-gradient(var(--green) 0 88%,#e7dcc9 88%);display:grid;place-items:center;margin:auto;} .ring div{width:84px;height:84px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:26px;font-weight:800;color:var(--brown);}
-  .hbar{display:flex;align-items:center;gap:8px;margin:5px 0;font-size:12.5px;} .hbar .t{width:90px;} .hbar .b{flex:1;height:14px;background:#eee2d2;border-radius:7px;overflow:hidden;} .hbar .b i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--brown));}
-  .sell{display:flex;gap:7px;flex-wrap:wrap;} .sell span{background:#fff;border:1px solid #eee2d2;border-radius:18px;padding:5px 11px;font-size:11.5px;color:var(--brown);font-weight:600;}
-  @media(max-width:720px){.grid{grid-template-columns:repeat(2,1fr);}}
+  *{box-sizing:border-box;margin:0;padding:0;font-family:"Segoe UI","Assistant",Arial,sans-serif;}
+  body{background:linear-gradient(160deg,#f3ecdf,#e6d5bc);min-height:100vh;color:#2b2b2b;}
+  header{background:var(--brown);color:#fff;padding:12px 14px;display:flex;align-items:center;gap:11px;position:sticky;top:0;z-index:9;box-shadow:0 2px 12px rgba(0,0,0,.25);}
+  .ava{width:52px;height:52px;border-radius:50%;background:var(--gold);display:grid;place-items:center;font-size:28px;overflow:hidden;position:relative;flex-shrink:0;}
+  .ava img{width:100%;height:100%;object-fit:cover;}
+  .ava.talk::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2.5px solid #fff;animation:pu 1s infinite;}
+  @keyframes pu{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(1.3)}}
+  header b{font-size:16px;} header small{opacity:.85;font-size:11px;display:block;}
+  .snd{margin-inline-start:auto;background:rgba(255,255,255,.18);border:none;color:#fff;border-radius:9px;padding:8px 11px;cursor:pointer;font-size:16px;}
+  .bubble{background:#fff;border-radius:14px;margin:12px;padding:12px 14px;font-size:14.5px;line-height:1.5;box-shadow:0 3px 14px rgba(80,50,20,.12);border-inline-start:4px solid var(--gold);}
+  .wrap{max-width:760px;margin:0 auto;padding:0 12px 40px;}
+  .search{display:flex;gap:8px;margin:4px 0 10px;}
+  .search input{flex:1;padding:12px;border:1.5px solid #d8c9ae;border-radius:12px;font-size:15px;background:#fff;}
+  .chips{display:flex;gap:7px;overflow-x:auto;padding:4px 0 10px;-webkit-overflow-scrolling:touch;}
+  .chip{flex-shrink:0;background:#fff;border:1.5px solid #d8c9ae;color:var(--brown);border-radius:20px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;}
+  .chip.on{background:var(--brown);color:#fff;border-color:var(--brown);}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;}
+  .card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 3px 12px rgba(80,50,20,.1);cursor:pointer;transition:.15s;}
+  .card:active{transform:scale(.97);}
+  .card img{width:100%;height:110px;object-fit:cover;display:block;background:#eee;}
+  .card .noimg{width:100%;height:110px;display:grid;place-items:center;font-size:38px;background:#f3ecdf;}
+  .card .nm{padding:8px 9px 4px;font-size:13px;font-weight:700;line-height:1.3;min-height:38px;}
+  .card .meta{display:flex;gap:5px;padding:0 9px 9px;flex-wrap:wrap;}
+  .pill{font-size:10.5px;font-weight:800;border-radius:7px;padding:2px 7px;background:var(--brown);color:#fff;}
+  .k{font-size:10.5px;font-weight:700;border-radius:7px;padding:2px 7px;}
+  .k.p{background:#e7f3e9;color:var(--green);} .k.d{background:#eaf0fb;color:#2a5ca8;}
+  /* product page */
+  .pv{position:fixed;inset:0;background:var(--cream);z-index:20;overflow:auto;display:none;}
+  .pv.open{display:block;}
+  .pv .hero{position:relative;}
+  .pv .hero img{width:100%;max-height:280px;object-fit:cover;display:block;}
+  .pv .back{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:10px;padding:9px 14px;font-size:15px;cursor:pointer;}
+  .pv .body{max-width:700px;margin:0 auto;padding:14px;}
+  .pv h1{color:var(--brown);font-size:21px;margin-bottom:8px;}
+  .facts{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px;}
+  .fact{background:#fff;border:1px solid #e5d7bd;border-radius:10px;padding:6px 11px;font-size:12.5px;}
+  .fact b{color:var(--brown);}
+  .stepbox{background:#fff;border-radius:16px;padding:20px 16px;text-align:center;box-shadow:0 4px 16px rgba(80,50,20,.12);}
+  .stepbox .n{display:inline-block;min-width:38px;height:38px;line-height:38px;border-radius:50%;background:var(--gold);color:#fff;font-weight:800;font-size:17px;}
+  .stepbox .tx{font-size:18px;font-weight:700;line-height:1.5;margin:13px 0;}
+  .pbar{height:7px;background:#e7dcc9;border-radius:5px;margin:10px 0;overflow:hidden;}
+  .pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--green));transition:.3s;}
+  .btn{display:block;width:100%;padding:14px;border:none;border-radius:13px;background:var(--brown);color:#fff;font-size:16px;font-weight:800;cursor:pointer;margin-top:10px;}
+  .btn.ghost{background:#fff;color:var(--brown);border:2px solid var(--brown);}
+  .rowbtns{display:flex;gap:8px;} .rowbtns .btn{flex:1;}
+  .done{background:#e7f6ec;color:var(--green);border:1.5px solid #abdcb9;border-radius:13px;padding:14px;text-align:center;font-weight:800;margin-top:10px;}
+  .note{text-align:center;color:#8a7a64;font-size:11.5px;padding:10px;}
 </style>
 </head>
 <body>
-<div class="topbar">
-  <div class="brand">🥐 החונך <small>· סניף הרצליה · יום חמישי</small></div>
-  <div class="switch">
-    <button id="sw-worker" class="on" onclick="view('worker')">📱 העובד</button>
-    <button id="sw-mgr" onclick="view('mgr')">📊 מנהל</button>
+<header>
+  <span class="ava" id="ava">👨‍🍳</span>
+  <div><b>החונך · קובי</b><small>הדרכת מוצרים · מהחוברת הרשמית</small></div>
+  <button class="snd" id="snd" onclick="tgl()">🔊</button>
+</header>
+
+<div class="bubble" id="say">שלום! אני החונך. בחר מוצר — ואני אסביר לך צעד-צעד איך מכינים אותו, בדיוק לפי נהלי האפייה.</div>
+
+<div class="wrap">
+  <div class="search"><input id="q" placeholder="🔍 חפש מוצר... (בגט, חלה, בורקס...)" oninput="render()"></div>
+  <div class="chips" id="chips"></div>
+  <div class="grid" id="grid"></div>
+  <p class="note">116 מוצרים · הופק אוטומטית מחוברות נהלי האפייה · דמו</p>
+</div>
+
+<div class="pv" id="pv">
+  <div class="hero"><img id="pimg" src="" alt=""><button class="back" onclick="closeP()">→ חזרה</button></div>
+  <div class="body">
+    <h1 id="pname"></h1>
+    <div class="facts" id="pfacts"></div>
+    <div class="pbar"><i id="pbar"></i></div>
+    <div class="stepbox">
+      <span class="n" id="sn">1</span>
+      <div class="tx" id="stx"></div>
+      <div class="rowbtns">
+        <button class="btn ghost" id="prevb" onclick="prv()">→ הקודם</button>
+        <button class="btn" id="nextb" onclick="nxt()">בוצע ✓ הבא</button>
+      </div>
+      <button class="btn ghost" onclick="rpt()">🔊 חזור על ההסבר</button>
+    </div>
+    <div id="pdone"></div>
   </div>
 </div>
 
-<div class="stage">
-  <div id="worker">
-    <div class="phone">
-      <div class="ph-head"><span class="ava" id="ava">👨‍🍳</span><div><b>החונך · דני</b><br><small>סניף הרצליה</small></div>
-        <button class="snd" id="sndBtn" onclick="toggleSnd()">🔊</button>
-      </div>
-      <div class="ph-body">
-        <div id="w-login">
-          <h2>בוקר טוב 👋</h2>
-          <p class="sub">אני דני, החונך שלך. אדבר ואלווה אותך צעד-צעד.</p>
-          <button class="btn" onclick="wstart('new')">אני עובד חדש 🆕</button>
-          <button class="btn ghost" onclick="wstart('pro')">אני כבר יודע 💪</button>
-        </div>
-        <div id="w-setup" class="hidden">
-          <h2>לפני שמתחילים 🗒️</h2>
-          <p class="sub" id="setupQ"></p>
-          <div id="setupBtns"></div>
-        </div>
-        <div id="w-tasks" class="hidden">
-          <div class="daybar">📅 <b>יום חמישי</b> · הכנות לשבת · 22 משימות
-            <div class="prog"><i id="dayprog"></i></div>
-            <span id="progTxt" style="font-size:11px"></span>
-          </div>
-          <div id="taskList"></div>
-        </div>
-        <div id="w-flow" class="hidden">
-          <button class="link" onclick="wshow('w-tasks')">→ חזרה למשימות</button>
-          <h2 id="flowTitle"></h2><div class="bar"><i id="bar"></i></div>
-          <div class="step" id="stepBox"></div>
-        </div>
-        <div id="w-chat" class="hidden">
-          <button class="link" onclick="wshow('w-tasks')">→ חזרה</button><h2>שאל את דני 🎙️</h2>
-          <div class="chat"><div class="msgs" id="msgs"><div class="m bot">שלום! שאל אותי כל שאלה על מוצר.</div></div>
-            <div class="inp"><input id="q" placeholder="כתוב או דבר..." onkeydown="if(event.key==='Enter')ask()"><button onclick="ask()">שלח</button></div></div>
-        </div>
-      </div>
-    </div>
-    <p style="text-align:center;color:#8a7a64;font-size:12px;margin-top:12px">דמו חי · האווטר מדבר בעברית (Chrome/Edge) · נתוני רוסטיק אמיתיים</p>
-  </div>
-
-  <div id="mgr" class="hidden">
-    <div class="dash">
-      <h1>📊 דוח סוף יום — סניף הרצליה</h1>
-      <p class="sub">יום חמישי 25.06.2026 · הופק אוטומטית</p>
-      <div class="grid">
-        <div class="stat"><div class="v">22</div><div class="l">מוצרים בתוכנית</div></div>
-        <div class="stat"><div class="v">20</div><div class="l">בוצעו ✓</div></div>
-        <div class="stat"><div class="v">8%</div><div class="l">פחת (↓ מ-17%)</div></div>
-        <div class="stat"><div class="v">88</div><div class="l">ציון איכות</div></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px">
-        <div class="panel" style="margin:0"><h3>⭐ הנמכרים ביותר היום</h3>
-          <div class="hbar"><span class="t">בורקס גבינה</span><span class="b"><i style="width:95%"></i></span></div>
-          <div class="hbar"><span class="t">חלה מתוקה</span><span class="b"><i style="width:88%"></i></span></div>
-          <div class="hbar"><span class="t">באגט רוסטיק</span><span class="b"><i style="width:80%"></i></span></div>
-          <div class="hbar"><span class="t">קרואסון שוקולד</span><span class="b"><i style="width:72%"></i></span></div>
-          <div class="hbar"><span class="t">לחם מחמצת</span><span class="b"><i style="width:60%"></i></span></div>
-        </div>
-        <div class="panel" style="margin:0;text-align:center"><h3>ציון איכות הסניף</h3>
-          <div class="ring"><div>88</div></div><p class="sub" style="margin-top:6px">בקרת איכות מתמונה</p></div>
-      </div>
-      <div class="panel"><h3>⚠️ תוכננו ולא בוצעו — עם הסבר</h3>
-        <div class="row">קרואסון שקדים <span class="tag t-warn">חוסר עובדים אחה"צ</span></div>
-        <div class="row">לחם מחמצת זיתים <span class="tag t-bad">חוסר מלאי → הוזמן</span></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px">
-        <div class="panel" style="margin:0"><h3>🏥 מעקב משרד הבריאות</h3>
-          <div class="row">טמפ' מקרר 3° <span class="tag t-ok">✓ 06:12</span></div>
-          <div class="row">טמפ' מקפיא -19° <span class="tag t-ok">✓ 06:13</span></div>
-          <div class="row">פתיחת נוזל ביצים <span class="tag t-ok">✓ נרשם</span></div>
-          <div class="row">ניקיון סוף יום <span class="tag t-ok">✓ הושלם</span></div>
-        </div>
-        <div class="panel" style="margin:0"><h3>🗑️ השמדות + 📦 הזמנה</h3>
-          <div class="row">השמדות היום <span class="tag t-ok">8 יח' → ממלאי</span></div>
-          <div class="row">הזמנה למחר <span class="tag t-ok">חושבה אוטומטית</span></div>
-          <div class="row">הון כלוא במקפיא <span class="tag t-ok">↓ 23%</span></div>
-        </div>
-      </div>
-      <div class="panel"><h3>💡 הערך לרשת</h3>
-        <div class="sell"><span>🔻 פחת נמוך</span><span>🔒 מניעת אסון כשרות</span><span>📋 Audit-Ready</span><span>⏱️ חפיפה ב-70% פחות זמן</span><span>💰 הון משוחרר</span><span>📦 הזמנות מדויקות</span><span>📊 שליטה רב-סניפית</span></div>
-      </div>
-    </div>
-  </div>
-</div>
-
+<script src="products.js"></script>
 <script>
-const P=[
- {c:"לחמים",n:"באגט רוסטיק",k:"parve",p:"P8",q:"4 מגשים · 28 יח'",done:true},
- {c:"לחמים",n:"באגטים בצק",k:"parve",p:"P1",q:"3 מגשים · 15 יח'",done:true,steps:[{t:"בדוק שתפח — כפול, רך וקפיצי"},{t:"סדר 5 על מגש משומן"},{t:"חרוץ 5 חריצים + פזר שומשום"},{t:"לחץ תוכנית",pgm:"P1"},{t:"בדוק שזהוב",photo:1}]},
- {c:"לחמים",n:"לחם מחמצת לבן",k:"parve",p:"P9",q:"3 מגשים · 18 יח'",done:true},
- {c:"לחמים",n:"לחם מחמצת טוסקני",k:"parve",p:"P9",q:"2 מגשים · 12 יח'",done:false},
- {c:"לחמניות",n:"לחמניה עגולה לבנה",k:"parve",p:"P4",q:"3 מגשים · 45 יח'",done:true},
- {c:"לחמניות",n:"לחמניה דגנים",k:"parve",p:"P4",q:"2 מגשים · 30 יח'",done:true},
- {c:"לחמניות",n:"בייגל שומשום",k:"parve",p:"P4",q:"2 מגשים · 30 יח'",done:false},
- {c:"בורקס",n:"בורקס תפו\"א",k:"parve",p:"P10",q:"3 מגשים · 108 יח'",done:true,steps:[{t:"הוצא מהמקפיא, הפשר טיפה"},{t:"סדר 6×6 על מגש עם נייר אפייה",img:1},{t:"מרח ביצה + פזר שומשום"},{t:"לחץ תוכנית בתנור הפרווה",pgm:"P10"},{t:"כשמצפצף — בדוק שזהוב",photo:1}]},
- {c:"בורקס",n:"בורקס גבינה",k:"dairy",p:"P1",q:"3 מגשים · 108 יח'",done:false,steps:[{t:"הוצא מהמקפיא, הפשר טיפה"},{t:"סדר 6×6 על מגש עם נייר",img:1},{t:"מרח ביצה + פזר שומשום"},{t:"⚠️ זהו מוצר חלבי!",kosher:1},{t:"לחץ תוכנית בתנור החלבי",pgm:"P1"},{t:"בדוק שזהוב",photo:1}]},
- {c:"בורקס",n:"בורקיטס בולגרי",k:"dairy",p:"P1",q:"2 מגשים · 72 יח'",done:false},
- {c:"מתוקים",n:"קרואסון שוקולד",k:"parve",p:"P11",q:"3 מגשים · 60 יח'",done:true,steps:[{t:"בדוק שתפח — כפול, רך, קפיצי"},{t:"סדר 4×5 = 20 על מגש"},{t:"מרח ביצה + פזר שוקולד"},{t:"לחץ תוכנית בתנור הפרווה",pgm:"P11"},{t:"ביציאה: מרח סירופ סוכר",photo:1}]},
- {c:"מתוקים",n:"קרואסון שקדים",k:"dairy",p:"P2",q:"2 מגשים · 40 יח'",done:false},
- {c:"מתוקים",n:"רוגלך שוקולד",k:"parve",p:"P11",q:"2 מגשים · 60 יח'",done:false},
- {c:"מתוקים",n:"כיס גבינה",k:"dairy",p:"P2",q:"2 מגשים · 40 יח'",done:false},
- {c:"מתוקים",n:"אזני פיל",k:"parve",p:"P12",q:"2 מגשים · 48 יח'",done:true},
- {c:"עוגות שמרים",n:"עוגת שמרים שוקולד",k:"parve",p:"P13",q:"4 יח'",done:true},
- {c:"עוגות שמרים",n:"עוגת שמרים גבינה",k:"dairy",p:"P4",q:"4 יח'",done:false},
- {c:"חלות (שבת)",n:"חלה רגילה",k:"parve",p:"P14",q:"5 מגשים · 15 יח'",done:false,steps:[{t:"בדוק שתפח — כפול ורך"},{t:"סדר 3 על מגש"},{t:"פזר שומשום (בלי ביצה)"},{t:"לחץ תוכנית",pgm:"P14"},{t:"בדוק שזהוב",photo:1}]},
- {c:"חלות (שבת)",n:"חלה מתוקה",k:"parve",p:"P15",q:"4 מגשים · 12 יח'",done:false,steps:[{t:"בדוק שתפח"},{t:"סדר 3 על מגש"},{t:"מרח ביצה + שומשום"},{t:"לחץ תוכנית",pgm:"P15"},{t:"בדוק שזהוב ומבריק",photo:1}]},
- {c:"פיתות",n:"פיתה קלאסית",k:"parve",p:"P6",q:"4 מגשים",done:true},
- {c:"מדף",n:"מאפינס (בדיקת תוקף שבועית)",k:"parve",p:"—",q:"בדוק תוקף",done:false},
-];
-let mode='new',snd=true,flow=null,fi=0,flowDone=null,curProd=null;
-const OPENING=[
- {t:"שטוף ידיים היטב במים וסבון — 20 שניות",hy:1},
- {t:"לבש סינר נקי וכיסוי ראש לשיער",hy:1},
- {t:"הכן כפפות לעבודה",hy:1},
- {t:"הדלק את שני התנורים — פרווה לתוכנית P1, חלבי לתוכנית P1 — שיתחממו"},
- {t:"בזמן שהתנורים מתחממים — הוצא מהמקרר את עגלות הסחורה שתפחה בלילה"},
- {t:"בדיקת פתיחה: רשום טמפ' מקרר (3°) ומקפיא (‎-19°‎) — דרישת משרד הבריאות",chk:1},
- {t:"בדוק מה תפח טוב מהלילה — מתחילים ממה שתפח (כפול, רך, קפיצי)"},
- {t:"חכה שהתנורים יצפצפו — סימן שהגיעו לחום. רק אז מתחילים לאפות"},
-];
-const CLOSING=[
- {t:"ארוז את מה שהתקרר — באגט, לחם מחמצת, לחמניות — בשקיות"},
- {t:"רשום השמדות — מה נשאר מאתמול. זכור: ממעטים בהשמדה, מה שתקין — מוכרים"},
- {t:"הכן למחר: סדר על מגשים, כסה בשקית גדולה, 3.5 שעות בחוץ ואז למקרר ללילה"},
- {t:"נקה משטחים, שולחנות ורצפה — לעמידה במשרד הבריאות",hy:1},
- {t:"ודא שכל התנורים והחשמל מכובים לפני שאתה עוזב",chk:1},
- {t:"🎉 סיימת משמרת מלאה — מהפתיחה ועד הסגירה. כל הכבוד!",fin:1},
-];
-const BATCHES=[
- {t:"🟢 תנור פרווה · תוכנית P1 — מכניסים: באגטים בצק, 3 מגשים. (5 חריצים + שומשום, מגש משומן)",pgm:"P1"},
- {t:"🟢 תנור פרווה · תוכנית P4 — מכניסים: לחמניות לבנות 3 מגשים + לחמניות דגנים 2 + בייגל שומשום 2.",pgm:"P4"},
- {t:"🟢 תנור פרווה · תוכנית P6 — מכניסים: פיתות, 4 מגשים. (א\"ק — ישר לתנור)",pgm:"P6"},
- {t:"🟢 תנור פרווה · תוכנית P8 — מכניסים: באגט רוסטיק, 4 מגשים. (א\"ק)",pgm:"P8"},
- {t:"🟢 תנור פרווה · תוכנית P9 — מכניסים: לחם מחמצת, 5 מגשים. (א\"ק)",pgm:"P9"},
- {t:"🟢 תנור פרווה · תוכנית P10 — מכניסים: בורקס תפו\"א, 3 מגשים. (ביצה + שומשום)",pgm:"P10"},
- {t:"חכה לצפצוף → הוצא וצלם לבדיקת איכות.",photo:1},
- {t:"🟢 תנור פרווה · תוכנית P11 — מכניסים: קרואסון שוקולד 3 מגשים + רוגלך 2. (ביצה + שוקולד, סירופ ביציאה)",pgm:"P11"},
- {t:"🟢 תנור פרווה · תוכנית P12 — מכניסים: אזני פיל, 2 מגשים.",pgm:"P12"},
- {t:"🟢 תנור פרווה · תוכנית P13 — מכניסים: עוגת שמרים, 1 מגש. (ביצה)",pgm:"P13"},
- {t:"🕎 תנור פרווה · תוכנית P14 — מכניסים: חלה רגילה, 5 מגשים. (שומשום, בלי ביצה)",pgm:"P14"},
- {t:"🕎 תנור פרווה · תוכנית P15 — מכניסים: חלה מתוקה, 4 מגשים. (ביצה + שומשום)",pgm:"P15"},
- {t:"🔵 תנור חלבי · תוכנית P1 — מכניסים: בורקס גבינה 3 מגשים + בורקיטס בולגרי 2. (ביצה + שומשום)",kosher:1,pgm:"P1"},
- {t:"🔵 תנור חלבי · תוכנית P2 — מכניסים: קרואסון שקדים 2 מגשים + כיס גבינה 2.",kosher:1,pgm:"P2"},
- {t:"🔵 תנור חלבי · תוכנית P4 — מכניסים: עוגת שמרים גבינה, 1 מגש.",kosher:1,pgm:"P4"},
- {t:"בדוק שהכל זהוב. צלם לבדיקה אחרונה.",photo:1},
-];
-const PACKAGING=[
- {t:"חכה שהסחורה תתקרר. ארוז באגט, לחם מחמצת ולחמניות בשקיות.",hy:1},
- {t:"סדר הכל בתצוגה — רק כשקר. הישן קדימה (FIFO)."},
-];
-const PREP=[
- {t:"הכנה למחר: סדר מוצרי בצק על מגשים (קרואסון, חלות, לחמניות, רוגלך...)."},
- {t:"כסה בשקית גדולה, השאר 3.5 שעות בחוץ, ואז למקרר ללילה."},
-];
-function runBaking(){curProd=null;startFlow(BATCHES,'🔥 אפייה מודרכת',()=>{startFlow(PACKAGING,'📦 אריזה ותצוגה',()=>{startFlow(PREP,'🌃 הכנה למחר',()=>{startFlow(CLOSING,'🌙 סיום משמרת',()=>{wshow('w-tasks');});});});});speak('מתחילים אפייה מודרכת. אני אגיד לך בדיוק איזה מוצר, איזו תוכנית, באיזה תנור, וכמה מגשים. אתה רק מבצע.');}
-function speak(t){if(!snd||!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/[⚠️▶🔴✅📸🎬🧼🎉]/g,''));u.lang='he-IL';u.rate=1.02;const a=document.getElementById('ava');a.classList.add('talk');u.onend=()=>a.classList.remove('talk');speechSynthesis.speak(u);}
-function toggleSnd(){snd=!snd;document.getElementById('sndBtn').textContent=snd?'🔊':'🔇';if(!snd&&window.speechSynthesis)speechSynthesis.cancel();}
-function view(v){document.getElementById('worker').classList.toggle('hidden',v!=='worker');document.getElementById('mgr').classList.toggle('hidden',v!=='mgr');document.getElementById('sw-worker').classList.toggle('on',v==='worker');document.getElementById('sw-mgr').classList.toggle('on',v==='mgr');if(v!=='worker'&&window.speechSynthesis)speechSynthesis.cancel();}
-function wshow(id){['w-login','w-setup','w-tasks','w-flow','w-chat'].forEach(x=>document.getElementById(x).classList.add('hidden'));document.getElementById(id).classList.remove('hidden');}
-const NEEDS_PROOF=new Set(["באגטים בצק","קרואסון שוקולד","קרואסון שקדים","רוגלך שוקולד","כיס גבינה","עוגת שמרים שוקולד","עוגת שמרים גבינה","חלה רגילה","חלה מתוקה","לחמניה עגולה לבנה","לחמניה דגנים","בייגל שומשום"]);
-let hasPrep=true,firstDay=false;
-function wstart(m){mode=m;wshow('w-setup');askSetup(0);}
-function askSetup(step){const q=document.getElementById('setupQ'),b=document.getElementById('setupBtns');
-  if(step===0){q.textContent='האם זה היום הראשון בסניף?';speak('האם זה היום הראשון בסניף?');
-    b.innerHTML=`<button class="btn" onclick="setFirst(true)">כן, יום ראשון</button><button class="btn ghost" onclick="setFirst(false)">לא, סניף ותיק</button>`;}
-  else{q.textContent='האם יש הכנות מאתמול? (סחורה שתפחה במקרר בלילה)';speak('האם יש הכנות מאתמול? סחורה שתפחה במקרר בלילה.');
-    b.innerHTML=`<button class="btn" onclick="setPrep(true)">כן, יש הכנות 🧊</button><button class="btn ghost" onclick="setPrep(false)">אין הכנות</button>`;}}
-function setFirst(v){firstDay=v;if(v){hasPrep=false;startShift();}else askSetup(1);}
-function setPrep(v){hasPrep=v;startShift();}
-function startShift(){startFlow(OPENING,'☀️ פתיחת משמרת',()=>{renderTasks();wshow('w-tasks');
-  speak(hasPrep?'יש הכנות מאתמול — מצב אפייה. אופים אותן, מסדרים בתצוגה, ואז ממשיכים הכנות למחר.':'אין הכנות — אז היום מכינים, ואופים מיד רק מה שאפשר: א"ק, עלים ופילו. כל מה שצריך תפיחה נכנס למקרר עד מחר, או מתפיח בחוץ חמש שעות ונאפה בהמשך היום.');});
-  speak('מתחילים בהיגיינה ופתיחת משמרת. שטוף ידיים היטב במים וסבון, עשרים שניות.');}
-function startFlow(steps,title,onDone){flow=steps;fi=0;flowDone=onDone;document.getElementById('flowTitle').textContent=title;renderStep();wshow('w-flow');}
-function openFlow(i){const p=P[i];if(!p.steps){alert('דני: '+p.n+' — תוכנית '+p.p+', '+(p.k==='parve'?'תנור פרווה':'תנור חלבי')+', '+p.q);speak(p.n+', תוכנית '+p.p+', '+(p.k==='parve'?'תנור פרווה':'תנור חלבי'));return;}curProd=p;startFlow(p.steps,p.n,()=>{p.done=true;renderTasks();wshow('w-tasks');speak('כל הכבוד! סיימת את '+p.n+'. למשימה הבאה.');});}
-function prepItem(n){const m=n+' צריך תפיחה. מסדרים על מגש, ומכניסים למקרר לתפיחה עד מחר — או מתפיחים בחוץ חמש שעות ואופים בהמשך היום.';alert('דני: '+m);speak(m);}
-function renderTasks(){const el=document.getElementById('taskList');el.innerHTML='';const done=P.filter(x=>x.done).length;
-  document.getElementById('dayprog').style.width=(done/P.length*100)+'%';
-  document.getElementById('progTxt').textContent=(hasPrep?'🧊 יש הכנות מאתמול — מצב אפייה · ':'🆕 אין הכנות — מכינים + אופים א"ק/עלים/פילו · ')+`${done} מתוך ${P.length} בוצעו`;
-  if(hasPrep){const g=document.createElement('button');g.className='btn';g.style.fontSize='15px';g.style.marginBottom='8px';g.innerHTML='▶ התחל אפייה מודרכת<br><small style="font-weight:400">דני מוביל אותך — מוצר, תוכנית, וכמה מגשים</small>';g.onclick=runBaking;el.appendChild(g);}
-  let last='';P.forEach((p,i)=>{if(p.c!==last){const h=document.createElement('div');h.className='cat';h.textContent=p.c;el.appendChild(h);last=p.c;}
-   const prep=!hasPrep&&NEEDS_PROOF.has(p.n);
-   const d=document.createElement('div');d.className='task'+(p.done?' done':'');
-   if(prep){d.style.opacity=.75;d.onclick=()=>prepItem(p.n);
-     d.innerHTML=`<span class="pill" style="background:#2a5ca8">🧊</span><div style="flex:1"><b>${p.n}</b><br><span class="qty">${p.q}</span></div><span class="tag t-warn">→ תפיחה למחר</span>`;}
-   else{d.onclick=()=>openFlow(i);
-     d.innerHTML=`<span class="pill">${p.p}</span><div style="flex:1"><b>${p.n}</b><br><span class="qty">${p.q}</span></div>
-       <span class="kosher ${p.k==='parve'?'k-parve':'k-dairy'}">${p.k==='parve'?'פרווה':'חלבי'}</span>${p.done?'<span class="chk">✓</span>':''}`;}
-   el.appendChild(d);});
-  const c=document.createElement('button');c.className='btn ghost';c.textContent='🎙️ שאל את דני';c.onclick=()=>{wshow('w-chat');speak('שאל אותי כל שאלה על מוצר.');};el.appendChild(c);
-  const e=document.createElement('button');e.className='btn';e.style.background='#444';e.textContent='🌙 סיום משמרת';e.onclick=()=>{curProd=null;startFlow(CLOSING,'🌙 סיום משמרת',()=>{wshow('w-tasks');});speak('בוא נסגור את המשמרת. קודם, ארוז את מה שהתקרר.');};el.appendChild(e);}
-function renderStep(){const s=flow[fi];document.getElementById('bar').style.width=(fi/flow.length*100)+'%';
-  let h=`<span class="n">${fi+1}</span><div class="big">${s.t}</div>`;
-  if(s.pgm)h+=`<div class="pgmBig">▶ ${s.pgm}</div><div style="font-size:12px;color:#999">בתנור ${curProd?(curProd.k==='dairy'?'החלבי':'הפרווה'):(s.kosher?'החלבי':'הנכון')}</div>`;
-  if(s.kosher)h+=`<div class="alert red">🔴 שים לב! מוצר חלבי — חייב להיכנס לתנור החלבי בלבד. תנור לא נכון = בעיית כשרות חמורה!</div>`;
-  if(s.hy)h+=`<div class="photo" style="border-color:#2a5ca8;color:#2a5ca8;cursor:default">🧼 שלב היגיינה</div>`;
-  if(s.chk)h+=`<div class="photo" style="border-color:#2a8a4a;color:#2a8a4a" onclick="this.outerHTML='<div class=\\'alert ok\\'>✅ נרשם</div>'">✅ סמן שבוצע</div>`;
-  if(s.img)h+=`<div class="photo">🎬 כאן יופיע סרטון: איך מסדרים נכון</div>`;
-  if(s.photo)h+=`<div class="photo" onclick="qc(this)">📸 צלם את התוצר לבדיקת איכות</div>`;
-  if(s.fin)h+=`<div class="alert ok">🎉 משמרת הושלמה במלואה — מהפתיחה ועד הסגירה!</div>`;
-  h+=`<button class="btn" onclick="next()">${fi<flow.length-1?'בוצע ✓ — הבא':'סיום ✓'}</button>`;
-  if(fi>0)h+=`<button class="link" onclick="prev()">→ שלב קודם</button>`;
-  document.getElementById('stepBox').innerHTML=h;
-  speak((s.kosher?'שים לב, מוצר חלבי, רק לתנור החלבי. ':'')+s.t+(s.pgm?' לחץ תוכנית '+s.pgm:''));}
-function qc(el){el.outerHTML='<div class="alert ok">✅ מצוין! זהוב ואחיד — עומד בתקן.</div>';speak('מצוין! זהוב ואחיד, עומד בתקן.');}
-function next(){if(fi<flow.length-1){fi++;renderStep();}else{if(flowDone)flowDone();}}
-function prev(){if(fi>0){fi--;renderStep();}}
-function ask(){const i=document.getElementById('q'),q=i.value.trim();if(!q)return;i.value='';add(q,'me');const p=P.find(x=>q.includes(x.n.split(' ')[0]));let a;
-  if(p)a=`${p.n}: תוכנית ${p.p}, ${p.k==='parve'?'תנור פרווה':'תנור חלבי'}.${p.k==='dairy'?' שים לב — חלבי בלבד!':''}`;else a='את זה עוד לא לימדו אותי. חייג לאופה התורן: 050-0000000. אחרי שיסביר, נוסיף לאפליקציה.';
-  setTimeout(()=>{add(a,'bot');speak(a);},350);}
-function add(t,w){const m=document.createElement('div');m.className='m '+w;m.textContent=t;const b=document.getElementById('msgs');b.appendChild(m);b.scrollTop=b.scrollHeight;}
+let snd=true,cat="הכל",cur=null,si=0;
+const CATS=["הכל",...new Set(window.PRODUCTS.map(p=>p.cat))];
+function speak(t){if(!snd||!window.speechSynthesis)return;speechSynthesis.cancel();
+ const u=new SpeechSynthesisUtterance(t);u.lang='he-IL';u.rate=1.02;
+ const a=document.getElementById('ava');a.classList.add('talk');u.onend=()=>a.classList.remove('talk');
+ speechSynthesis.speak(u);}
+function tgl(){snd=!snd;document.getElementById('snd').textContent=snd?'🔊':'🔇';if(!snd)speechSynthesis.cancel();}
+function chips(){const el=document.getElementById('chips');el.innerHTML='';
+ CATS.forEach(c=>{const b=document.createElement('button');b.className='chip'+(c===cat?' on':'');b.textContent=c;
+  b.onclick=()=>{cat=c;render();};el.appendChild(b);});}
+function render(){chips();const q=document.getElementById('q').value.trim();
+ const el=document.getElementById('grid');el.innerHTML='';
+ window.PRODUCTS.filter(p=>(cat==='הכל'||p.cat===cat)&&(!q||p.name.includes(q))).forEach(p=>{
+  const d=document.createElement('div');d.className='card';d.onclick=()=>openP(p);
+  d.innerHTML=(p.img?`<img loading="lazy" src="img/${p.img}">`:`<div class="noimg">🥐</div>`)+
+   `<div class="nm">${p.name}</div><div class="meta">${p.prog?`<span class="pill">${p.prog}</span>`:''}`+
+   (p.kosher?`<span class="k ${p.kosher==='פרווה'?'p':'d'}">${p.kosher}</span>`:'')+`</div>`;
+  el.appendChild(d);});}
+function openP(p){cur=p;si=0;
+ document.getElementById('pimg').src=p.img?('img/'+p.img):'';
+ document.getElementById('pname').textContent=p.name;
+ const f=[];if(p.kosher)f.push(`<b>כשרות:</b> ${p.kosher}`);if(p.prog)f.push(`<b>תוכנית:</b> ${p.prog}`);
+ if(p.days)f.push(`<b>ימי אפייה:</b> ${p.days}`);if(p.hours)f.push(`<b>שעות:</b> ${p.hours}`);
+ if(p.barcode)f.push(`<b>ברקוד:</b> ${p.barcode}`);if(p.shelf)f.push(`<b>חיי מדף:</b> ${p.shelf}`);
+ document.getElementById('pfacts').innerHTML=f.map(x=>`<span class="fact">${x}</span>`).join('');
+ document.getElementById('pdone').innerHTML='';
+ document.getElementById('pv').classList.add('open');window.scrollTo(0,0);
+ speak(`${p.name}. ${p.kosher||''}. ${p.prog?'תוכנית '+p.prog+'.':''} בוא נעבור על השלבים.`);
+ setTimeout(step,1800);}
+function step(){const s=cur.steps[si];
+ document.getElementById('sn').textContent=si+1;
+ document.getElementById('stx').textContent=s;
+ document.getElementById('pbar').style.width=(si/cur.steps.length*100)+'%';
+ document.getElementById('prevb').style.visibility=si?'visible':'hidden';
+ document.getElementById('nextb').textContent=si<cur.steps.length-1?'בוצע ✓ הבא':'סיימתי ✓';
+ speak(s);}
+function nxt(){if(si<cur.steps.length-1){si++;step();}
+ else{document.getElementById('pbar').style.width='100%';
+  document.getElementById('pdone').innerHTML='<div class="done">✅ כל הכבוד! סיימת את '+cur.name+' לפי הנוהל.</div>';
+  speak('כל הכבוד! סיימת את '+cur.name+' בדיוק לפי הנוהל.');}}
+function prv(){if(si>0){si--;step();}}
+function rpt(){step();}
+function closeP(){document.getElementById('pv').classList.remove('open');speechSynthesis.cancel();}
+render();
 </script>
 </body>
 </html>
